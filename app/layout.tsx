@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Tatak 2000s: Philippine Pop Culture Virtual Museum',
+  description: 'Explore Philippine pop culture from 2000–2010 to today through interactive exhibits on SMS, Friendster, OPM, LAN shops, and everyday life.',
   generator: 'v0.app',
   icons: {
     icon: [
