@@ -30,7 +30,7 @@ let warpTimers = [];
 const ERA_INFO = {
   then: { name: 'The 2000s Wing', theme: '#fff4fa',
           desc: '2000–2010: texting clans, Friendster, burned CDs, LAN shops, and the first online rescue calls.' },
-  now:  { name: 'The Today Wing', theme: '#f5f4ef',
+  now:  { name: 'The Today Wing', theme: '#111211',
           desc: 'The 2020s: short videos, e-wallets, P-Pop, mobile esports, and real-time weather alerts.' }
 };
 
