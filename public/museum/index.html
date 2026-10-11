@@ -78,19 +78,30 @@
 
   <!-- Hero / Grand Lobby -->
   <section id="top" class="px-4 pt-10 sm:pt-14 pb-8 text-center">
-    <div class="max-w-5xl mx-auto">
-      <span class="hero-pill"><span class="only-then">📼 The 2000s Wing is open • 2000–2010</span><span class="only-now">📱 The Today Wing is open • 2020s</span></span>
-      <h2 class="hero-title">
-        From <span class="grad-text">Unli-Text &amp; Friendster</span><br>to P-Pop &amp; 5G Streams
-      </h2>
-      <p class="max-w-2xl mx-auto text-xs sm:text-base leading-relaxed text-[var(--muted)] mb-6 sm:mb-7">
-        Trace how the analog-digital hybrid era of 2000–2010 shaped modern Philippine communication, entertainment, sports, and socio-political identity.
-      </p>
-      <div class="flex flex-wrap justify-center gap-2.5 sm:gap-3 mb-6 sm:mb-8">
-        <button type="button" onclick="openRoom(0)" class="btn btn-pink">🚪 Start the tour</button>
-        <a href="#exhibits" class="btn">Browse exhibits ↓</a>
-        <button type="button" onclick="openMap()" class="btn">🗺️ Floor map</button>
+    <div class="max-w-5xl mx-auto hero-layout">
+      <div class="hero-copy">
+        <span class="hero-pill"><span class="only-then">📼 The 2000s Wing is open • 2000–2010</span><span class="only-now">📱 The Today Wing is open • 2020s</span></span>
+        <h2 class="hero-title">
+          From <span class="grad-text">Unli-Text &amp; Friendster</span><br>to P-Pop &amp; 5G Streams
+        </h2>
+        <p class="max-w-2xl mx-auto text-xs sm:text-base leading-relaxed text-[var(--muted)] mb-6 sm:mb-7">
+          Trace how the analog-digital hybrid era of 2000–2010 shaped modern Philippine communication, entertainment, sports, and socio-political identity.
+        </p>
+        <div class="flex flex-wrap justify-center gap-2.5 sm:gap-3 mb-6 sm:mb-8">
+          <button type="button" onclick="openRoom(0)" class="btn btn-pink">🚪 Start the tour</button>
+          <a href="#exhibits" class="btn">Browse exhibits ↓</a>
+          <button type="button" onclick="openMap()" class="btn">🗺️ Floor map</button>
+        </div>
       </div>
+
+      <figure class="hero-spotlight only-now">
+        <img src="./images/modernphones.jpg" alt="A collection of contemporary smartphones representing the always-connected era" fetchpriority="high">
+        <figcaption>
+          <span>01 / 06 &nbsp;·&nbsp; FEATURED EXHIBIT</span>
+          <strong>Connection, reimagined</strong>
+          <small>From pocket texts to always-on feeds</small>
+        </figcaption>
+      </figure>
 
       <!-- Horizontal mobile carousel / wrapped desktop tabs -->
       <div id="wing-tabs" class="pill-carousel max-w-3xl mx-auto" role="tablist" aria-label="Filter exhibits by topic"></div>

@@ -1200,3 +1200,234 @@ html.era-now .site-footer { border-top-color: var(--blue); }
   .warp.warping, .you-are-here, .confetti { animation: none; }
   .toast { transition: none; }
 }
+
+/* ---------- Today wing: editorial virtual museum ---------- */
+html.era-now {
+  --ink: #252820;
+  --muted: #70736b;
+  --paper: #f5f4ef;
+  --line: rgba(37, 40, 32, 0.12);
+  --pink: #4055a8;
+  --blue: #4b8196;
+  --yellow: #eee8da;
+  --mint: #5c8875;
+  --violet: #76659b;
+  --orange: #bb674a;
+}
+html.era-now .bg-sky {
+  background: #f5f4ef;
+}
+html.era-now .bg-sky::before {
+  inset: 0;
+  background:
+    radial-gradient(42% 42% at 96% 8%, rgba(75, 129, 150, 0.11), transparent 72%),
+    radial-gradient(38% 38% at 8% 45%, rgba(187, 103, 74, 0.07), transparent 72%);
+  filter: blur(28px);
+  animation: none;
+}
+html.era-now .bg-sky::after {
+  background: none;
+}
+html.era-now .site-header {
+  background: rgba(250, 249, 245, 0.92);
+}
+html.era-now .brand-badge {
+  background: var(--ink);
+}
+html.era-now .btn-pink {
+  color: #fff;
+  background: var(--pink);
+}
+html.era-now .hero-pill {
+  color: var(--pink);
+  background: #fff;
+  box-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+html.era-now .hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.03fr) minmax(19rem, 0.97fr);
+  align-items: center;
+  column-gap: clamp(2rem, 5vw, 5rem);
+  row-gap: 2.25rem;
+  max-width: 72rem;
+}
+html.era-now .hero-copy {
+  min-width: 0;
+  text-align: left;
+}
+html.era-now .hero-copy .hero-title {
+  max-width: 12ch;
+  margin: 0 0 1.15rem;
+  font-size: clamp(2.45rem, 4.4vw, 4.15rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+}
+html.era-now .grad-text {
+  color: var(--pink);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+html.era-now .hero-copy > p {
+  max-width: 34rem;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+html.era-now .hero-copy > .flex {
+  justify-content: flex-start;
+}
+html.era-now .hero-spotlight {
+  position: relative;
+  display: block;
+  min-width: 0;
+  aspect-ratio: 1.42;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(37, 40, 32, 0.12);
+  border-radius: 1.25rem;
+  background: #343832;
+  box-shadow: 0 24px 60px -34px rgba(37, 40, 32, 0.46);
+}
+html.era-now .hero-spotlight img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+html.era-now .hero-spotlight:hover img {
+  transform: scale(1.035);
+}
+html.era-now .hero-spotlight::after {
+  position: absolute;
+  inset: 35% 0 0;
+  content: "";
+  background: linear-gradient(180deg, transparent, rgba(18, 20, 18, 0.78));
+  pointer-events: none;
+}
+html.era-now .hero-spotlight figcaption {
+  position: absolute;
+  z-index: 1;
+  right: 1.35rem;
+  bottom: 1.25rem;
+  left: 1.35rem;
+  display: grid;
+  gap: 0.32rem;
+  color: #fff;
+}
+html.era-now .hero-spotlight figcaption span {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+html.era-now .hero-spotlight figcaption strong {
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  letter-spacing: -0.035em;
+}
+html.era-now .hero-spotlight figcaption small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.74rem;
+}
+html.era-now #wing-tabs {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: none;
+  justify-content: flex-start;
+  margin: 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+html.era-now .section-head {
+  max-width: none;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+html.era-now .section-head h3 {
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  letter-spacing: -0.045em;
+}
+html.era-now .section-head p {
+  max-width: 38rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+html.era-now .exhibit-card {
+  border-radius: 1.15rem;
+  background: #fff;
+  box-shadow: 0 12px 32px -22px rgba(37, 40, 32, 0.32);
+}
+html.era-now .card-media {
+  height: clamp(12rem, 20vw, 16rem);
+  background: #e9e6dd;
+}
+html.era-now .card-badge {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+}
+html.era-now .card-era-copy.is-current {
+  box-shadow: inset 3px 0 0 var(--pink);
+}
+html.era-now .era-present {
+  color: #2e426f;
+  background: #eef1f8;
+  border-color: #d9dfed;
+}
+html.era-now .era-present .era-label {
+  color: #4055a8;
+}
+html.era-now .wing-picker {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.84);
+}
+html.era-now .wing-current {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--pink);
+  background: #f1f2f8;
+  box-shadow: none;
+}
+html.era-now .wing-btn.wing-now.active {
+  color: #fff;
+  background: var(--pink);
+  border: 1px solid var(--pink);
+  box-shadow: 0 8px 24px -14px rgba(64, 85, 168, 0.76);
+}
+html.era-now .wing-btn.wing-now.active small {
+  color: rgba(255, 255, 255, 0.78);
+}
+html.era-now .impact-box,
+html.era-now .change-box {
+  color: #30406f;
+  background: #eef1f8;
+}
+html.era-now .floor-wing.fw-now {
+  background: #eef1f8;
+}
+html.era-now .site-footer {
+  border-top-color: var(--line);
+}
+
+@media (max-width: 760px) {
+  html.era-now .hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.5rem;
+  }
+  html.era-now .hero-copy .hero-title {
+    max-width: 14ch;
+    font-size: clamp(2.35rem, 9vw, 3.5rem);
+  }
+  html.era-now .hero-spotlight {
+    aspect-ratio: 1.65;
+  }
+  html.era-now .hero-spotlight figcaption {
+    bottom: 3rem;
+  }
+  html.era-now #wing-tabs {
+    padding-top: 0.9rem;
+  }
+}
