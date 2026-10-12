@@ -93,6 +93,7 @@ function applyEra(era) {
 
   renderGallery();
   switchWing(currentTopic);
+  if (era === 'then') stopModernGame();
 }
 
 function renderWingTabs() {
@@ -859,6 +860,118 @@ function handleSnakeKey(key) {
   else if (key === '5') toggleSnakePlay(); // Pause / Play
 }
 
+let modernGameInterval = null;
+let modernGameScore = 0;
+let modernGameBest = 0;
+
+function setModernMode(mode) {
+  if (mode !== 'chat' && mode !== 'game') return;
+  const isGame = mode === 'game';
+  const chatView = $('modern-chat-view');
+  const gameView = $('modern-game-view');
+  const chatButton = $('modern-mode-chat-btn');
+  const gameButton = $('modern-mode-game-btn');
+  if (!chatView || !gameView) return;
+
+  chatView.hidden = isGame;
+  gameView.hidden = !isGame;
+  chatView.classList.toggle('is-active', !isGame);
+  gameView.classList.toggle('is-active', isGame);
+  chatButton?.classList.toggle('active', !isGame);
+  gameButton?.classList.toggle('active', isGame);
+  chatButton?.setAttribute('aria-pressed', String(!isGame));
+  gameButton?.setAttribute('aria-pressed', String(isGame));
+  if (!isGame) {
+    stopModernGame();
+    $('modern-game-score').textContent = '00';
+    $('modern-game-time').textContent = '15';
+    $('modern-game-message').textContent = 'Glow Rush';
+    $('modern-game-instructions').textContent = 'Tap the light. Chase your high score.';
+    $('modern-game-start').textContent = 'Play 15 seconds';
+  }
+}
+
+function appendModernMessage(text) {
+  const feed = $('modern-chat-feed');
+  if (!feed) return;
+  const message = document.createElement('div');
+  message.className = 'modern-message modern-message-out';
+  message.textContent = text;
+  const typing = feed.querySelector('.modern-typing');
+  feed.insertBefore(message, typing || null);
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function modernSendMessage(event) {
+  event.preventDefault();
+  const input = $('modern-message-input');
+  const text = input?.value.trim();
+  if (!text) return;
+  appendModernMessage(text);
+  input.value = '';
+  input.focus();
+}
+
+function modernUsePreset(text) {
+  appendModernMessage(text);
+  setModernMode('chat');
+}
+
+function moveModernGameTarget() {
+  const target = $('modern-game-target');
+  if (!target) return;
+  target.style.left = `${18 + Math.random() * 64}%`;
+  target.style.top = `${18 + Math.random() * 64}%`;
+}
+
+function startModernGame() {
+  stopModernGame();
+  modernGameScore = 0;
+  $('modern-game-score').textContent = '00';
+  $('modern-game-time').textContent = '15';
+  $('modern-game-message').textContent = 'Glow Rush';
+  $('modern-game-instructions').textContent = 'Tap the light. Chase your high score.';
+  $('modern-game-start').textContent = 'Play 15 seconds';
+  $('modern-game-overlay').hidden = true;
+  $('modern-game-target').hidden = false;
+  moveModernGameTarget();
+
+  let secondsLeft = 15;
+  modernGameInterval = setInterval(() => {
+    secondsLeft -= 1;
+    $('modern-game-time').textContent = String(secondsLeft).padStart(2, '0');
+    if (secondsLeft <= 0) finishModernGame();
+  }, 1000);
+}
+
+function modernGameTap() {
+  if (!modernGameInterval) return;
+  modernGameScore += 1;
+  $('modern-game-score').textContent = String(modernGameScore).padStart(2, '0');
+  if (modernGameScore > modernGameBest) {
+    modernGameBest = modernGameScore;
+    $('modern-game-best').textContent = String(modernGameBest);
+  }
+  moveModernGameTarget();
+}
+
+function finishModernGame() {
+  stopModernGame();
+  $('modern-game-message').textContent = 'Round complete!';
+  $('modern-game-instructions').textContent = `You caught ${modernGameScore} lights. Want another go?`;
+  $('modern-game-start').textContent = 'Play again';
+  $('modern-game-overlay').hidden = false;
+}
+
+function stopModernGame() {
+  if (modernGameInterval) clearInterval(modernGameInterval);
+  modernGameInterval = null;
+  const target = $('modern-game-target');
+  const overlay = $('modern-game-overlay');
+  if (target) target.hidden = true;
+  if (overlay) overlay.hidden = false;
+}
+
 // Keyboard controls
 document.addEventListener('keydown', e => {
   if (nokiaMode === 'snake') {
@@ -1368,6 +1481,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderWingTabs();
   initGalleryEvents();
   applyEra(currentEra);
+  setModernMode('chat');
   updatePassportBadge();
   renderCurators();
   initBeforeAfter();
