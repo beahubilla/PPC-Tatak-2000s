@@ -143,7 +143,7 @@ function renderGallery() {
         </div>
       </div>
       <div class="card-foot">
-        <span>Impact: <em>${esc(ex.impact || d.impact)}</em></span>
+        <span>${currentEra === 'then' ? 'Impact' : 'Why it matters'}: <em>${esc(d.impact)}</em></span>
         <span class="enter">${visited ? '✓ ' : ''}Enter room →</span>
       </div>
     </article>`;
