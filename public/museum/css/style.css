@@ -2437,32 +2437,14 @@ html.era-now .floor-wing.fw-now {
   background: linear-gradient(135deg, #eeeaff, #e5f8ff);
 }
 html.era-now .site-footer {
-  color: #34334f;
-  background: rgba(236,234,251,.9);
-  border-top-color: rgba(101,93,180,.2);
-}
-html.era-now .footer-title,
-html.era-now .sources-heading h3 {
-  color: #25243d;
-}
-html.era-now .footer-subject,
-html.era-now .sources-heading .retro,
-html.era-now .footer-top {
-  color: #725300;
-}
-html.era-now .footer-line,
-html.era-now .sources-heading p,
-html.era-now .source-list li {
-  color: #45445f;
+  color: #d9cff0;
+  background: #2b1d45;
+  border-top-color: #ff5fa2;
 }
 html.era-now .sources-section {
-  color: #34334f;
-  background: rgba(255,255,255,.55);
-  border-color: rgba(101,93,180,.24);
-}
-html.era-now .source-list a {
-  color: #292741;
-  text-decoration-color: #9a7000;
+  color: #f7f4ff;
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.2);
 }
 html.era-now :focus-visible {
   outline: 3px solid #885feb;
