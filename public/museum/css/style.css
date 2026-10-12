@@ -2437,9 +2437,14 @@ html.era-now .floor-wing.fw-now {
   background: linear-gradient(135deg, #eeeaff, #e5f8ff);
 }
 html.era-now .site-footer {
-  color: #656584;
-  background: rgba(236,234,251,.9);
-  border-top-color: rgba(101,93,180,.2);
+  color: #d9cff0;
+  background: #2b1d45;
+  border-top-color: #ff5fa2;
+}
+html.era-now .sources-section {
+  color: #f7f4ff;
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.2);
 }
 html.era-now :focus-visible {
   outline: 3px solid #885feb;
