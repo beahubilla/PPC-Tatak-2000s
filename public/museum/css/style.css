@@ -2384,9 +2384,11 @@ html.era-now .card-era-copy-then .card-era-label {
 }
 html.era-now .card-era-subtitle,
 html.era-now .card-era-summary,
-html.era-now .blurb,
-html.era-now .card-foot {
+html.era-now .blurb {
   color: #696b8a;
+}
+html.era-now .card-foot {
+  color: #6e5f8a;
 }
 html.era-now .card-foot {
   border-top: 1px solid rgba(101,93,180,.18);
