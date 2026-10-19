@@ -20,30 +20,42 @@ function profInitials(p) {
 }
 
 // ------------------------------------------------------------
-// TIME MACHINE (2000s <-> Today) + EXHIBIT WINGS
-// ------------------------------------------------------------
+// TIME MACHINE (2000s <-> Today <-> Future) + EXHIBIT WINGS
 const ERA_STORAGE_KEY = 'ppc-era';
-let currentEra = document.documentElement.classList.contains('era-now') ? 'now' : 'then';
+let currentEra = document.documentElement.classList.contains('era-future') ? 'future' : (document.documentElement.classList.contains('era-now') ? 'now' : 'then');
 let currentTopic = 'all';
 let warpTimers = [];
 
 const ERA_INFO = {
   then: { name: 'The 2000s Wing', theme: '#fff4fa',
           desc: '2000–2010: texting clans, Friendster, burned CDs, LAN shops, and the first online rescue calls.' },
-  now:  { name: 'The Today Wing', theme: '#e9e6ff',
-          desc: 'The 2020s: short videos, e-wallets, P-Pop, mobile esports, and real-time weather alerts.' }
+  now:  { name: 'The Present Wing', theme: '#e9e6ff',
+          desc: 'The 2020s: short videos, e-wallets, P-Pop, mobile esports, and real-time weather alerts.' },
+  future: { name: 'The Future Wing', theme: '#e9f7ff',
+            desc: 'What comes next: connected communities, immersive media, intelligent tools, and culture still being written.' }
 };
 
 // One exhibit, seen through one era. Missing fields fall back to safe blanks.
 function eraData(ex, era) {
+  if (era === 'future') {
+    const t = ex.future || ex.today || {};
+    return {
+      era: 'future', label: 'Future',
+      title: t.title || `The next chapter of ${ex.wing}`, blurb: t.blurb || 'Emerging technologies and communities will keep reshaping this part of Philippine pop culture.',
+      badge: t.badge || 'Next horizon', tag: t.tag || 'WHAT COMES NEXT',
+      icon: t.icon || '🔭', image: t.image || '', alt: t.alt || t.badge || ex.badge || '',
+      summary: t.summary || 'New tools will make this culture more connected, participatory, and accessible.', intro: t.intro || '', facts: t.facts || [], artifacts: t.artifacts || [],
+      gallery: t.gallery || [], impact: t.impact || 'The future is shaped by the choices communities make today.'
+    };
+  }
   if (era === 'now') {
     const t = ex.today || {};
     return {
-      era: 'now', label: 'Today',
+      era: 'now', label: 'Present',
       title: t.title || ex.title || '', blurb: t.blurb || ex.blurb || '',
       badge: t.badge || ex.badge || '', tag: t.tag || ex.tag || '',
       icon: t.icon || ex.icon || '✨', image: t.image || '', alt: t.alt || t.badge || ex.badge || '',
-      summary: ex.now || '', intro: t.intro || '', facts: t.facts || [], artifacts: t.artifacts || [],
+      summary: t.summary || ex.now || '', intro: t.intro || '', facts: t.facts || [], artifacts: t.artifacts || [],
       gallery: t.gallery || [], impact: t.impact || ex.impact || ''
     };
   }
@@ -58,7 +70,7 @@ function eraData(ex, era) {
 }
 
 function setEra(era) {
-  if (era !== 'then' && era !== 'now') return;
+  if (!['then', 'now', 'future'].includes(era)) return;
   if (era === currentEra) return;
   warpTimers.forEach(clearTimeout); warpTimers = [];
   const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -75,7 +87,7 @@ function setEra(era) {
 function applyEra(era) {
   currentEra = era;
   const root = document.documentElement;
-  root.classList.remove('era-then', 'era-now');
+  root.classList.remove('era-then', 'era-now', 'era-future');
   root.classList.add('era-' + era);
   try { localStorage.setItem(ERA_STORAGE_KEY, era); } catch (e) { /* ignore */ }
 
@@ -113,6 +125,7 @@ function renderGallery() {
     const d = eraData(ex, currentEra);
     const then = eraData(ex, 'then');
     const now = eraData(ex, 'now');
+    const future = eraData(ex, 'future');
     const visited = hasStamp(ex.id, currentEra);
     const eraCopy = (content, era, label, icon) => `
       <section class="card-era-copy card-era-copy-${era} ${currentEra === era ? 'is-current' : ''}" aria-label="${label} description">
@@ -137,13 +150,14 @@ function renderGallery() {
             <span class="retro-tag">${esc(d.tag)}</span>
           </div>
           <div class="card-era-comparison" aria-label="Compare this exhibit across eras">
-            ${eraCopy(then, 'then', '2000–2010', '🕹️')}
-            ${eraCopy(now, 'now', 'Today · 2020s', '📱')}
+            ${eraCopy(then, 'then', 'Past · 2000–2010', '🕹️')}
+            ${eraCopy(now, 'now', 'Present · 2020s', '📱')}
+            ${eraCopy(future, 'future', 'Future · Next chapter', '🔭')}
           </div>
         </div>
       </div>
       <div class="card-foot">
-        <span>${currentEra === 'then' ? 'Impact' : 'Why it matters'}: <em>${esc(d.impact)}</em></span>
+        <span>${currentEra === 'then' ? 'Past impact' : currentEra === 'now' ? 'Present impact' : 'Future outlook'}: <em>${esc(d.impact)}</em></span>
         <span class="enter">${visited ? '✓ ' : ''}Enter room →</span>
       </div>
     </article>`;
@@ -344,6 +358,21 @@ function roomGalleryHtml(items, era, heading) {
     </section>`;
 }
 
+function srcLinkHtml(s) {
+  const meta = [s.publisher, s.year].filter(Boolean).map(esc).join(', ');
+  return `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>${meta ? ` <span class="src-pub">— ${meta}</span>` : ''}`;
+}
+
+function roomSourcesHtml(ex, era) {
+  const list = (ex.sources || []).filter(s => era === 'compare' || s.era === 'both' || s.era === era);
+  if (!list.length) return '';
+  return `
+    <details class="room-sources">
+      <summary>📚 Sources for this room (${list.length})</summary>
+      <ol>${list.map(s => `<li>${srcLinkHtml(s)}${s.note ? `<small>${esc(s.note)}</small>` : ''}</li>`).join('')}</ol>
+    </details>`;
+}
+
 function roomFactsHtml(facts) {
   if (!facts || !facts.length) return '';
   return `<h3 class="room-h">💡 Did you know?</h3><ul class="fact-list">${facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>`;
@@ -406,10 +435,10 @@ function roomTabsHtml(ex) {
 
 function roomActionsHtml(ex, era) {
   const curator = (typeof ex.curator === 'number' && friendsterProfiles[ex.curator]) ? friendsterProfiles[ex.curator] : null;
-  const other = era === 'then' ? 'now' : 'then';
+  const other = era === 'then' ? 'now' : era === 'now' ? 'future' : 'then';
   return `
-    <div class="room-actions">
-      <button type="button" class="btn btn-pink" onclick="setRoomEra('${other}')">${other === 'now' ? 'See the Today version ⏩' : '⏪ Back to the 2000s'}</button>
+  <div class="room-actions">
+  <button type="button" class="btn btn-pink" onclick="setRoomEra('${other}')">${other === 'now' ? 'See the Present version ⏩' : other === 'future' ? 'See the Future version ✦' : '⏪ Back to the 2000s'}</button>
       <button type="button" class="btn" onclick="setRoomEra('compare')">⚖️ Compare both</button>
       ${curator ? `<button type="button" class="btn btn-yellow" onclick="visitCurator(${ex.curator})">✨ Meet the curator: ${esc(profShort(curator))}</button>` : ''}
     </div>`;
@@ -419,13 +448,14 @@ function roomEraBodyHtml(ex, era) {
   const d = eraData(ex, era);
   return `
     ${d.intro ? `<p class="room-intro">${esc(d.intro)}</p>` : ''}
-    <div class="era-block ${era === 'then' ? 'era-then' : 'era-present'}" style="margin:0">
-      <span class="era-label">${era === 'then' ? '2000–2010 Decade' : 'Present Time'}</span>${esc(d.summary)}
+  <div class="era-block ${era === 'then' ? 'era-then' : era === 'now' ? 'era-present' : 'era-future'}" style="margin:0">
+  <span class="era-label">${era === 'then' ? 'Past · 2000–2010' : era === 'now' ? 'Present · 2020s' : 'Future · Next chapter'}</span>${esc(d.summary)}
     </div>
     ${roomGalleryHtml(d.gallery, era)}
     ${roomFactsHtml(d.facts)}
     ${roomArtifactsHtml(d.artifacts)}
     ${d.impact ? `<div class="impact-box">⭐ ${era === 'then' ? 'Impact' : 'Why it matters'}: ${esc(d.impact)}</div>` : ''}
+    ${roomSourcesHtml(ex, era)}
     ${roomActionsHtml(ex, era)}`;
 }
 
@@ -445,6 +475,7 @@ function roomCompareBodyHtml(ex) {
     <div class="cmp-grid">${col(a, 'then')}${col(b, 'now')}</div>
     ${roomGalleryHtml(a.gallery, 'then', '📸 2000s photos')}
     ${roomGalleryHtml(b.gallery, 'now', '📸 Today photos')}
+    ${roomSourcesHtml(ex, 'compare')}
     <div class="room-actions">
       <button type="button" class="btn" onclick="setRoomEra('then')">🕹️ Enter the 2000s room</button>
       <button type="button" class="btn btn-pink" onclick="setRoomEra('now')">📱 Enter the Today room</button>
@@ -454,7 +485,7 @@ function roomCompareBodyHtml(ex) {
 function renderRoom(index, era) {
   const total = exhibits.length;
   currentRoom = ((index % total) + total) % total;
-  if (era === 'then' || era === 'now' || era === 'compare') roomEra = era;
+  if (era === 'then' || era === 'now' || era === 'future' || era === 'compare') roomEra = era;
   const ex = exhibits[currentRoom];
 
   $('room-panel').style.setProperty('--c', ex.color);
@@ -487,7 +518,7 @@ function setRoomEra(era) { renderRoom(currentRoom, era); }
 function openRoom(index, era) {
   const n = exhibits.length;
   const i = (((typeof index === 'number' ? index : 0) % n) + n) % n;
-  roomEra = (era === 'then' || era === 'now' || era === 'compare') ? era : currentEra;
+  roomEra = (era === 'then' || era === 'now' || era === 'future' || era === 'compare') ? era : currentEra;
   lastFocus.room = document.activeElement;
   enterLevel(1, roomHash(exhibits[i].id, roomEra));
   renderRoom(i);
@@ -1266,6 +1297,33 @@ function togglePlayerPopup() {
 }
 
 // ------------------------------------------------------------
+// SOURCES SECTION (built from `sources` + `imageCredits` in data.js)
+// ------------------------------------------------------------
+function renderSources() {
+  const wrap = $('sources-list');
+  if (!wrap) return;
+  const tag = era => era === 'both' ? '<span class="src-tag both">Past + Present</span>'
+    : `<span class="src-tag ${era === 'now' ? 'now' : era === 'future' ? 'future' : 'then'}">${era === 'now' ? 'Present' : era === 'future' ? 'Future' : 'Past'}</span>`;
+  wrap.innerHTML = exhibits.map(ex => `
+    <article class="src-card" style="--c:${esc(ex.color)}">
+      <div class="src-body">
+        <h4><span aria-hidden="true">${esc(ex.icon)}</span> ${esc(ex.wing)}</h4>
+        ${(ex.sources && ex.sources.length)
+          ? `<ol>${ex.sources.map(s => `<li>${tag(s.era)} ${srcLinkHtml(s)}${s.note ? `<small>${esc(s.note)}</small>` : ''}</li>`).join('')}</ol>`
+          : '<p class="src-empty">No sources added yet.</p>'}
+      </div>
+    </article>`).join('');
+
+  const credits = (typeof imageCredits !== 'undefined' && Array.isArray(imageCredits)) ? imageCredits : [];
+  const box = $('credits-wrap');
+  if (box && credits.length) {
+    $('credits-list').innerHTML = credits.map(c =>
+      `<li>${esc(c.item || '')}${c.credit ? ' — ' + esc(c.credit) : ''}${c.url ? ` (<a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">link</a>)` : ''}</li>`).join('');
+    box.classList.remove('hidden');
+  }
+}
+
+// ------------------------------------------------------------
 // MUSEUM PASSPORT (a stamp for every room, in both eras)
 // ------------------------------------------------------------
 const PASSPORT_KEY = 'ppc-passport-v1';
@@ -1413,7 +1471,7 @@ function renderMap() {
       <button type="button" class="door door-${era} ${got ? 'visited' : ''} ${here ? 'here' : ''}" style="--c:${esc(ex.color)}"
               onclick="mapEnter(${i}, '${era}')"
               aria-label="Enter the ${esc(ex.wing)} room, ${era === 'then' ? '2000s' : 'Today'} wing${got ? ' (visited)' : ''}${here ? ' (you are here)' : ''}">
-        ${here ? '<span class="you-are-here">📍 You are here</span>' : ''}
+        ${here ? '<span class="you-are-here">�� You are here</span>' : ''}
         <span class="door-icon">${esc(ex.icon)}</span>
         <span class="door-name">${esc(ex.wing)}</span>
         ${got ? '<span class="door-check">✓</span>' : ''}
@@ -1484,6 +1542,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setModernMode('chat');
   updatePassportBadge();
   renderCurators();
+  renderSources();
   initBeforeAfter();
   renderStationTabs();
   addSwipe($('room-content'), nextRoom, prevRoom);

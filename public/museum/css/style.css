@@ -3004,3 +3004,65 @@ html.era-now .modern-preset-list button:focus-visible {
     animation: none;
   }
 }
+
+
+/* ============================================================
+   SOURCES: page section + "Sources for this room" inside each room
+   ============================================================ */
+.sources-wrap { margin-top: 4rem; padding-bottom: 3rem; }
+.sources-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 768px) { .sources-grid { grid-template-columns: 1fr 1fr; } }
+.src-card {
+  overflow: hidden; padding: 0; background: #fff; color: var(--ink);
+  border: 2px solid var(--ink); border-radius: 1rem; box-shadow: 4px 4px 0 var(--c, var(--pink));
+}
+.src-body { padding: 0.95rem 1.05rem 0.5rem; }
+.src-body h4 { margin-bottom: 0.55rem; font-size: 0.95rem; font-weight: 800; }
+.src-body ol, .room-sources ol { padding: 0 0 0.7rem 1.1rem; list-style: decimal; font-size: 0.72rem; line-height: 1.5; }
+.src-body li, .room-sources li { margin-bottom: 0.5rem; }
+.src-body small, .room-sources small { display: block; color: var(--muted); }
+.src-body a, .room-sources a, .credits a { color: var(--blue); text-decoration: underline; overflow-wrap: anywhere; }
+.src-pub { color: var(--muted); }
+.src-empty { padding-bottom: 0.7rem; font-size: 0.72rem; color: var(--muted); }
+.src-tag {
+  display: inline-block; margin-right: 0.25rem; padding: 0 0.35rem; vertical-align: 1px;
+  font-size: 0.55rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid currentColor; border-radius: 999px;
+}
+.src-tag.then { color: #b4501a; background: #fff3d6; }
+.src-tag.now { color: #4338ca; background: #eef0ff; }
+.src-tag.both { color: #0f766e; background: #e0f7f4; }
+.credits { margin-top: 1rem; padding: 0.9rem 1rem; font-size: 0.75rem; color: var(--ink); background: #fff; border: 2px solid var(--ink); border-radius: 1rem; }
+.credits h4 { margin-bottom: 0.4rem; font-weight: 800; }
+.credits ul { padding-left: 1.1rem; list-style: disc; }
+.sources-note { margin-top: 1rem; font-size: 0.65rem; text-align: center; color: var(--muted); }
+
+.room-sources { margin-top: 1.3rem; padding: 0.1rem 0.9rem; color: var(--ink); background: #fff; border: 2px solid var(--ink); border-radius: 0.9rem; }
+.room-sources summary { padding: 0.65rem 0; cursor: pointer; font-size: 0.8rem; font-weight: 800; }
+
+html.era-now .src-card, html.era-now .credits, html.era-now .room-sources {
+  border: 1px solid var(--line); border-radius: 1.5rem; box-shadow: 0 18px 44px -26px rgba(79, 70, 229, 0.45);
+}
+
+/* ---------- Future wing: a distinct phase for what comes next ---------- */
+html.era-future {
+  --ink: #14233b;
+  --muted: #4f6684;
+  --paper: #eef9ff;
+  --line: rgba(20, 35, 59, 0.14);
+  --pink: #7c3aed;
+  --blue: #0891b2;
+  --yellow: #d9f99d;
+  --mint: #14b8a6;
+  --violet: #8b5cf6;
+  --orange: #f59e0b;
+}
+html.era-future .bg-sky { background: linear-gradient(145deg, #e9f7ff, #f5f0ff 52%, #ecfff8); }
+html.era-future .only-then, html.era-future .only-now { display: none !important; }
+html.era-future .tm-btn[data-era="future"].active { color: #fff; background: linear-gradient(135deg, #7c3aed, #0891b2); border-color: #5b21b6; box-shadow: 0 3px 0 #3b0764; }
+html.era-future .wing-switch { grid-template-columns: repeat(3, 1fr); max-width: 48rem; }
+html.era-future .wing-btn.wing-future.active { color: #fff; background: linear-gradient(145deg, #7c3aed, #0891b2); border: 3px solid #5b21b6; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 5px 0 #3b0764; }
+html.era-future .wing-btn.wing-future.active small { color: #e0f2fe; }
+html.era-future .era-future { background: #ecfeff; border-color: #99f6e4; }
+html.era-future .card-era-copy-future.is-current { border-color: #7c3aed; background: rgba(124, 58, 237, 0.08); }
+html.era-future .site-footer { border-top-color: #7c3aed; }
+.src-tag.future { color: #6d28d9; background: #f3e8ff; }

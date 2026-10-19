@@ -13,7 +13,10 @@
     document.documentElement.classList.add('js');
     (function () {
       var era = 'then';
-      try { if (localStorage.getItem('ppc-era') === 'now') era = 'now'; } catch (e) {}
+      try {
+        var savedEra = localStorage.getItem('ppc-era');
+        if (savedEra === 'now' || savedEra === 'future') era = savedEra;
+      } catch (e) {}
       document.documentElement.classList.add('era-' + era);
     })();
   </script>
@@ -55,12 +58,14 @@
           <a href="#then-now" class="nav-link">Then vs. Now</a>
           <a href="#sms" class="nav-link">SMS &amp; Games</a>
           <a href="#curators" class="nav-link">Curators</a>
+          <a href="#sources" class="nav-link">Sources</a>
           <button type="button" onclick="openFriendsterModal(0)" class="nav-link">✨ Friendster</button>
         </nav>
         <!-- Time Machine -->
         <div class="tm" role="group" aria-label="Time machine: choose an era">
           <button type="button" class="tm-btn active" data-era="then" aria-label="View the 2000s wing, 2000 to 2010" aria-pressed="true" onclick="setEra('then')">⏪ 2000s<span>2000–2010</span></button>
-          <button type="button" class="tm-btn" data-era="now" aria-label="View the Today wing, the 2020s" aria-pressed="false" onclick="setEra('now')">Today ⏩<span>2020s</span></button>
+          <button type="button" class="tm-btn" data-era="now" aria-label="View the Present wing, the 2020s" aria-pressed="false" onclick="setEra('now')">Present ⏩<span>2020s</span></button>
+          <button type="button" class="tm-btn" data-era="future" aria-label="View the Future wing" aria-pressed="false" onclick="setEra('future')">Future ✦<span>Next</span></button>
         </div>
         <button type="button" class="icon-btn" onclick="openPassport()" aria-label="Open your museum passport" title="Museum passport">🛂<span class="icon-badge pp-count">0/12</span></button>
         <button type="button" class="icon-btn" onclick="openMap()" aria-label="Open the museum floor map" title="Floor map">🗺️</button>
@@ -72,6 +77,7 @@
       <a href="#then-now" class="nav-link">Then vs. Now</a>
       <a href="#sms" class="nav-link">SMS &amp; Games</a>
       <a href="#curators" class="nav-link">Curators</a>
+          <a href="#sources" class="nav-link">Sources</a>
       <button type="button" onclick="openFriendsterModal(0)" class="nav-link">✨ Friendster</button>
     </nav>
   </header>
@@ -131,7 +137,10 @@
           <span class="wing-emoji">🕹️</span><b>The 2000s Wing</b><small>2000–2010</small>
         </button>
         <button type="button" class="wing-btn wing-now" data-era="now" aria-pressed="false" onclick="setEra('now')">
-          <span class="wing-emoji">📱</span><b>The Today Wing</b><small>2020s</small>
+          <span class="wing-emoji">📱</span><b>The Present Wing</b><small>2020s</small>
+        </button>
+        <button type="button" class="wing-btn wing-future" data-era="future" aria-pressed="false" onclick="setEra('future')">
+          <span class="wing-emoji">🔭</span><b>The Future Wing</b><small>Next chapter</small>
         </button>
       </div>
     </div>
@@ -528,26 +537,29 @@
     </aside>
   </div>
 
+  <!-- SOURCES -->
+  <section id="sources" class="scroll-mt-24 sm:scroll-mt-28 sources-wrap">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="section-head">
+        <span class="retro">REFERENCES</span>
+        <h3>📚 Sources</h3>
+        <p>The facts in each room come from the references below. Tap a link to read the original.</p>
+      </div>
+      <div id="sources-list" class="sources-grid"></div>
+      <div id="credits-wrap" class="credits hidden">
+        <h4>🖼️ Image &amp; audio credits</h4>
+        <ul id="credits-list"></ul>
+      </div>
+      <p class="sources-note">Websites change over time, so details may look different from what each source said when we read it.</p>
+    </div>
+  </section>
+
   <footer class="site-footer">
     <div class="footer-card">
       <p class="footer-title">Evolution of Philippine Pop Culture: 2000–2010 vs. Present</p>
       <p class="footer-subject">📚 Subject: <strong>Philippine Pop Culture A1101</strong></p>
       <p class="footer-line">Group 3 Curators: Ysha Rose Beatrice Hubilla, Benz Buluran, Ingrid Mary Sacramento</p>
       <p class="footer-line">MMDC Digital Museum</p>
-      <section class="sources-section" aria-labelledby="sources-heading">
-        <div class="sources-heading">
-          <span class="retro">SOURCE NOTES</span>
-          <h3 id="sources-heading">Sources &amp; further reading</h3>
-          <p>Selected technical, academic, and institutional references behind the exhibit themes.</p>
-        </div>
-        <ul class="source-list">
-          <li><a href="https://www.3gpp.org/dynareport/23040.htm" target="_blank" rel="noopener noreferrer">3GPP TS 23.040</a><span> — Short Message Service technical specification</span></li>
-          <li><a href="https://doi.org/10.1215/08992363-15-3-399" target="_blank" rel="noopener noreferrer">Vicente L. Rafael, “The Cell Phone and the Crowd”</a><span> — People Power II and mobile communication</span></li>
-          <li><a href="https://ndrrmc.gov.ph/index.php/2-uncategorised/1543-final-report-on-tropical-storm-ondoy-and-typhoon-pepeng" target="_blank" rel="noopener noreferrer">NDRRMC Final Report on Ondoy and Pepeng</a><span> — Official disaster report, 2009</span></li>
-          <li><a href="https://datareportal.com/reports/digital-2026-philippines" target="_blank" rel="noopener noreferrer">DataReportal, Digital 2026: The Philippines</a><span> — Recent digital and social media context</span></li>
-          <li><a href="https://olympics.com/en/athletes/hidilyn-diaz" target="_blank" rel="noopener noreferrer">Olympics.com athlete profile: Hidilyn Diaz</a><span> — Official Olympic results</span></li>
-        </ul>
-      </section>
       <a href="#top" class="footer-top">↑ Back to top</a>
     </div>
   </footer>
